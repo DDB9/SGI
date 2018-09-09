@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 	void Update(){ 									// Dit werkt niet, want nu blijft hij voor altijd Menu afspelen.
 		if (detectiveIntro.isPlaying == false){ 	// Misschien dat het voor het debugging wel handig is om een ander
 			Menu(); 								// geluidje voor menu of detectiveIntro te gebruiken.
+            detectiveIntro.Play();
 		}
 	}
 
