@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1781952024283102}
+  m_IsPrefabAsset: 1
+--- !u!1 &1781952024283102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4847495569853496}
+  - component: {fileID: 114946436996327352}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4847495569853496
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781952024283102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1356198, y: 0.0978007, z: 0.115234375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114946436996327352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781952024283102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c198cd6d951e9244b12797f9af764fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectiveBriefing: {fileID: 82234232235105786, guid: d0f4656da778f3a4fb97e6a13bcf853b,
+    type: 2}
+  menu: {fileID: 82905054692771368, guid: a3e92747485ff0144a9d5c15fed7993d, type: 2}
+  dean: {fileID: 82618036572123492, guid: ab1e576f113caf24faf047adfacc009d, type: 2}
+  teacher: {fileID: 82429126382838792, guid: 764e72c51a1dea645b949744e6aa7b21, type: 2}
+  clerk: {fileID: 82160498851498904, guid: 64b81ec154fcb7d4699c6db64078c078, type: 2}
+  janitor: {fileID: 82991553018408808, guid: 85afac25cc137f544bd777533f9fabef, type: 2}
+  accusation: {fileID: 0}
