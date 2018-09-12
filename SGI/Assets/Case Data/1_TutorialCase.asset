@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21986ecc497d61e40977e993dfc6af27, type: 3}
+  m_Name: 1_TutorialCase
+  m_EditorClassIdentifier: 
+  introClips:
+  - {fileID: 8300000, guid: 80d5f99aa2007214d87ede743710afa2, type: 3}
+  - {fileID: 8300000, guid: 3cb64c9062f5e2a499c2d8535d68c21a, type: 3}
+  menuClip: {fileID: 8300000, guid: db24df58fcb06c5479a5d31a8818ea53, type: 3}
+  whoIsGuiltyClip: {fileID: 8300000, guid: 875540ac287420a41ba9c63ee0ad4dfd, type: 3}
+  suspects:
+  - suspectName: Dean
+    explanation: {fileID: 8300000, guid: d0da2d092ce4a714498e9f538165fcaf, type: 3}
+    accusationQuote: {fileID: 0}
+    hotkey: 50
+    guilty: 0
+  - suspectName: Math Teacher
+    explanation: {fileID: 8300000, guid: 01111254244de354687115eec3bc92bf, type: 3}
+    accusationQuote: {fileID: 0}
+    hotkey: 51
+    guilty: 1
+  - suspectName: Clerk
+    explanation: {fileID: 8300000, guid: 75bf21de408ab434484643c51a7b0042, type: 3}
+    accusationQuote: {fileID: 0}
+    hotkey: 52
+    guilty: 0
+  - suspectName: Janitor
+    explanation: {fileID: 8300000, guid: c84d094d6e57e3740aa9ca57fb58fb67, type: 3}
+    accusationQuote: {fileID: 0}
+    hotkey: 53
+    guilty: 0
