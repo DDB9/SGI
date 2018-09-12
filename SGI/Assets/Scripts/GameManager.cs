@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
 	public AudioSource detectiveIntro;
+	public AudioSource detectiveBriefing;
 	public AudioSource menu;
 	public AudioSource dean;
 	public AudioSource teacher;
@@ -12,9 +13,14 @@ public class GameManager : MonoBehaviour {
 	public AudioSource janitor;
 	public AudioSource accusation;
 
-	void Update(){ 									// Dit werkt niet, want nu blijft hij voor altijd Menu afspelen.
-		if (detectiveIntro.isPlaying == false){ 	// Misschien dat het voor het debugging wel handig is om een ander
-			Menu(); 								// geluidje voor menu of detectiveIntro te gebruiken.
+	void Start(){
+		detectiveIntro.Play();
+	}
+
+	void Update(){ 	
+		if (detectiveIntro.isPlaying == false){
+			detectiveBriefing.Play();
+			Debug.Log("Briefing");
 		}
 	}
 
