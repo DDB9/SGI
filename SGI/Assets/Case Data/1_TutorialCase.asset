@@ -14,26 +14,38 @@ MonoBehaviour:
   introClips:
   - {fileID: 8300000, guid: 80d5f99aa2007214d87ede743710afa2, type: 3}
   - {fileID: 8300000, guid: 3cb64c9062f5e2a499c2d8535d68c21a, type: 3}
-  menuClip: {fileID: 8300000, guid: db24df58fcb06c5479a5d31a8818ea53, type: 3}
-  whoIsGuiltyClip: {fileID: 8300000, guid: 875540ac287420a41ba9c63ee0ad4dfd, type: 3}
+  speakToDetective: {fileID: 0}
+  speakToSuspects: {fileID: 0}
   suspects:
   - suspectName: Dean
+    speakTo: {fileID: 8300000, guid: 73ef3fc2c35b12747abe9abec6438bb4, type: 3}
     explanation: {fileID: 8300000, guid: d0da2d092ce4a714498e9f538165fcaf, type: 3}
-    accusationQuote: {fileID: 0}
-    hotkey: 50
+    accusation: {fileID: 8300000, guid: eff5bc9219650144c8b5e45969ab9054, type: 3}
     guilty: 0
+    nextMenu: 0
   - suspectName: Math Teacher
+    speakTo: {fileID: 8300000, guid: 935f27edbf998154fac2f93c4a3111fa, type: 3}
     explanation: {fileID: 8300000, guid: 01111254244de354687115eec3bc92bf, type: 3}
-    accusationQuote: {fileID: 0}
-    hotkey: 51
+    accusation: {fileID: 8300000, guid: 2479331b31e428c4099f4d84d5262721, type: 3}
     guilty: 1
+    nextMenu: 0
   - suspectName: Clerk
+    speakTo: {fileID: 8300000, guid: 9f2d2160494357949b0d1358a812d87e, type: 3}
     explanation: {fileID: 8300000, guid: 75bf21de408ab434484643c51a7b0042, type: 3}
-    accusationQuote: {fileID: 0}
-    hotkey: 52
+    accusation: {fileID: 8300000, guid: 538b6776cfc87824c82592516bced152, type: 3}
     guilty: 0
+    nextMenu: 0
   - suspectName: Janitor
+    speakTo: {fileID: 8300000, guid: 4a7803a019453054eb3dcc73e368e4c3, type: 3}
     explanation: {fileID: 8300000, guid: c84d094d6e57e3740aa9ca57fb58fb67, type: 3}
-    accusationQuote: {fileID: 0}
-    hotkey: 53
+    accusation: {fileID: 8300000, guid: 1ce0d56e35b65044293d68f7cd8888ff, type: 3}
     guilty: 0
+    nextMenu: 0
+  - suspectName: NEXT MENU
+    speakTo: {fileID: 8300000, guid: 6661816acc78097499f28d07f3ce3799, type: 3}
+    explanation: {fileID: 8300000, guid: eafc1b7bd989278428d4da11ada7aa44, type: 3}
+    accusation: {fileID: 8300000, guid: ee65748a9cd2e4045b982517093f46b3, type: 3}
+    guilty: 0
+    nextMenu: 1
+  accuseCorrect: {fileID: 8300000, guid: d6ed42d05b968b342acd5069ebb16264, type: 3}
+  accuseWrong: {fileID: 8300000, guid: c2402f3e609a90948bf27600f112db52, type: 3}
