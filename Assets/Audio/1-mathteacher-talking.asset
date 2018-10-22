@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10dbbb96cdfce8d429995d16372fd8e0, type: 3}
+  m_Name: 1-mathteacher-talking
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 01111254244de354687115eec3bc92bf, type: 3}
+  frameStart: 432268
+  frameEnd: -1
+  resultInFrame: {fileID: 11400000, guid: 55df1bf5edf1664468d19b4bede89c84, type: 2}
+  resultOutOfFrameInitial: {fileID: 11400000, guid: 4654d2f9a84854248920927dcb911d23,
+    type: 2}
+  resultOutOfFrame: {fileID: 11400000, guid: 4654d2f9a84854248920927dcb911d23, type: 2}

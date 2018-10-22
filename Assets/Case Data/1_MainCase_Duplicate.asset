@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21986ecc497d61e40977e993dfc6af27, type: 3}
+  m_Name: 1_MainCase_Duplicate
+  m_EditorClassIdentifier: 
+  introClips:
+  - {fileID: 8300000, guid: 80d5f99aa2007214d87ede743710afa2, type: 3}
+  - {fileID: 8300000, guid: 1194894c3a6f21242977b692d970ae96, type: 3}
+  - {fileID: 8300000, guid: 3cb64c9062f5e2a499c2d8535d68c21a, type: 3}
+  suspects:
+  - suspectName: Dean
+    speakToMenu: {fileID: 8300000, guid: 73ef3fc2c35b12747abe9abec6438bb4, type: 3}
+    speakToDetective: {fileID: 8300000, guid: 27bee6ed0cca3c64bb481182fd3338be, type: 3}
+    explanation: {fileID: 8300000, guid: d0da2d092ce4a714498e9f538165fcaf, type: 3}
+    effectiveInterruption: {x: 0, y: 0}
+    accusation: {fileID: 8300000, guid: eff5bc9219650144c8b5e45969ab9054, type: 3}
+    guilty: 0
+    nextMenu: 0
+    interruptClipInitial: {fileID: 8300000, guid: a4e41ae1f2257a642a9c57f7479da61a,
+      type: 3}
+    interruptClip: {fileID: 8300000, guid: 2fcd4472bc6ef794d90d46f2a42fc724, type: 3}
+  - suspectName: Math Teacher
+    speakToMenu: {fileID: 8300000, guid: 935f27edbf998154fac2f93c4a3111fa, type: 3}
+    speakToDetective: {fileID: 8300000, guid: 0b01c2d94a5d4c24e9252713d8f62c9e, type: 3}
+    explanation: {fileID: 8300000, guid: 01111254244de354687115eec3bc92bf, type: 3}
+    effectiveInterruption: {x: 432268, y: 1000000}
+    accusation: {fileID: 8300000, guid: 2479331b31e428c4099f4d84d5262721, type: 3}
+    guilty: 1
+    nextMenu: 0
+    interruptClipInitial: {fileID: 8300000, guid: b601a90494416f44d96254ef85f90cba,
+      type: 3}
+    interruptClip: {fileID: 8300000, guid: 121499df66709da45a613578d00bd7b2, type: 3}
+  - suspectName: Clerk
+    speakToMenu: {fileID: 8300000, guid: 9f2d2160494357949b0d1358a812d87e, type: 3}
+    speakToDetective: {fileID: 8300000, guid: 65d8e4d1eb9efa44682374754e133c6f, type: 3}
+    explanation: {fileID: 8300000, guid: 75bf21de408ab434484643c51a7b0042, type: 3}
+    effectiveInterruption: {x: 0, y: 0}
+    accusation: {fileID: 8300000, guid: 538b6776cfc87824c82592516bced152, type: 3}
+    guilty: 0
+    nextMenu: 0
+    interruptClipInitial: {fileID: 8300000, guid: a4e41ae1f2257a642a9c57f7479da61a,
+      type: 3}
+    interruptClip: {fileID: 8300000, guid: 2fcd4472bc6ef794d90d46f2a42fc724, type: 3}
+  - suspectName: Janitor
+    speakToMenu: {fileID: 8300000, guid: 4a7803a019453054eb3dcc73e368e4c3, type: 3}
+    speakToDetective: {fileID: 8300000, guid: a5f62079fa1e15c418bc47274f99601d, type: 3}
+    explanation: {fileID: 8300000, guid: c84d094d6e57e3740aa9ca57fb58fb67, type: 3}
+    effectiveInterruption: {x: 0, y: 0}
+    accusation: {fileID: 8300000, guid: 1ce0d56e35b65044293d68f7cd8888ff, type: 3}
+    guilty: 0
+    nextMenu: 0
+    interruptClipInitial: {fileID: 8300000, guid: e5fb69bcf245edc4d95bfded43db18e0,
+      type: 3}
+    interruptClip: {fileID: 8300000, guid: 5321010159885014da930d5a5ad19794, type: 3}
+  - suspectName: NEXT MENU
+    speakToMenu: {fileID: 8300000, guid: 6661816acc78097499f28d07f3ce3799, type: 3}
+    speakToDetective: {fileID: 0}
+    explanation: {fileID: 8300000, guid: eafc1b7bd989278428d4da11ada7aa44, type: 3}
+    effectiveInterruption: {x: 0, y: 0}
+    accusation: {fileID: 8300000, guid: ee65748a9cd2e4045b982517093f46b3, type: 3}
+    guilty: 0
+    nextMenu: 1
+    interruptClipInitial: {fileID: 0}
+    interruptClip: {fileID: 0}
+  accuseCorrect: []
+  accuseWrong: []
+  interruptQuotes:
+  - {fileID: 8300000, guid: bcfdf57eb6082bf4996d10a5b6c2658f, type: 3}
+  - {fileID: 8300000, guid: fa4359d8bc44859499c647191d0c05e7, type: 3}
+  excuseQuotes:
+  - {fileID: 8300000, guid: 98a11dfad7fdf9f409fcc792d8d6221f, type: 3}
+  - {fileID: 8300000, guid: ee6d7d598b9444343b3e2b2525ea2e4a, type: 3}

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f40c3e23539d07746a951c5685f13f26, type: 3}
+  m_Name: Test Conversation Accuse Right
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 121499df66709da45a613578d00bd7b2, type: 3}
+  - {fileID: 8300000, guid: 348988729b79c8d46923ac28325a5489, type: 3}
+  - {fileID: 8300000, guid: 92d46c35e4aa9394d85a8628b21b824d, type: 3}
+  - {fileID: 8300000, guid: 5c799be14038add45b0d18b305a3ddc2, type: 3}

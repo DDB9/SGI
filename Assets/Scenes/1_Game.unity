@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 926769582}
   - component: {fileID: 926769583}
   - component: {fileID: 926769581}
+  - component: {fileID: 926769584}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -250,6 +251,11 @@ MonoBehaviour:
   activeCaseData: {fileID: 11400000, guid: 60aaee6d9f818e44598e8b44a221cbb9, type: 2}
   activeSuspect: 0
   activeSuspectName: 
+  interrupted: 00000000
+  winSequence:
+  - {fileID: 8300000, guid: 348988729b79c8d46923ac28325a5489, type: 3}
+  - {fileID: 8300000, guid: 92d46c35e4aa9394d85a8628b21b824d, type: 3}
+  - {fileID: 8300000, guid: 5c799be14038add45b0d18b305a3ddc2, type: 3}
 --- !u!82 &926769583
 AudioSource:
   m_ObjectHideFlags: 0
@@ -345,6 +351,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!167 &926769584
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 926769579}
+  m_Enabled: 1
+  m_MinDistance: 10
+  m_MaxDistance: 15
+  m_ReverbPreset: 17
+  m_Room: -1000
+  m_RoomHF: -800
+  m_DecayTime: 1.49
+  m_DecayHFRatio: 0.67
+  m_Reflections: -2273
+  m_ReflectionsDelay: 0.007
+  m_Reverb: -1691
+  m_ReverbDelay: 0.011
+  m_HFReference: 5000
+  m_Diffusion: 50
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0
 --- !u!1 &1015551689
 GameObject:
   m_ObjectHideFlags: 0

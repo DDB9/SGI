@@ -9,10 +9,14 @@ public sealed class GameController : MonoBehaviour {
     public CaseData activeCaseData;           //De active case data: hieruit haalt de GameController de data die per case nodig is
     public int activeSuspect;                 //De geselecteerde suspect: dus degene die geselecteerd is bij het ondervragen of beschuldigen in het menu. De int is de index in de Suspect array in de Case Data
     public string activeSuspectName;          //Debug. Alleen voor de inspector.
+    public bool[] interrupted = new bool[4];  //Bool array, houdt bij of suspect al is geinterrupt.
+    public AudioClip[] winSequence;           //De sequence van audioclips die speelt als je wint
 
     public bool canPlayerInput { get; set; }  //True als de speler keuzes kan maken (ondervragen en beschuldigen en zo)
+    public bool isInterrogating { get; set; } //True als de interrogation functie aan het afspelen is
 
     private AudioSource audioSource;          //De audiosource die alles afspeelt
+    private bool interrupt;                   //Trigger bij interruption
 
     private IEnumerator Start()
     {
@@ -25,7 +29,7 @@ public sealed class GameController : MonoBehaviour {
             yield return new WaitUntil(() => !audioSource.isPlaying || Input.GetKeyUp(KeyCode.Space));
             audioSource.Stop();
         }
-        PlayAtSource(activeCaseData.suspects[activeSuspect].speakTo);
+        PlayAtSource(activeCaseData.suspects[activeSuspect].speakToMenu);
         canPlayerInput = true;
     }
 
@@ -36,19 +40,18 @@ public sealed class GameController : MonoBehaviour {
         {
             if (gameState == GameState.Interrogating)
             {
-                Debug.Log("Suspects ondervragen");
                 //Tijdens het ondervragen van de suspects
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     if (activeSuspect <= 0)
                     {
                         activeSuspect = activeCaseData.suspects.Length - 1;
-                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakTo);
+                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakToMenu);
                     }
                     else
                     {
                         activeSuspect--;
-                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakTo);
+                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakToMenu);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -56,12 +59,12 @@ public sealed class GameController : MonoBehaviour {
                     if (activeSuspect >= activeCaseData.suspects.Length - 1)
                     {
                         activeSuspect = 0;
-                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakTo);
+                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakToMenu);
                     }
                     else
                     {
                         activeSuspect++;
-                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakTo);
+                        PlayAtSource(activeCaseData.suspects[activeSuspect].speakToMenu);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.Space))
@@ -72,7 +75,6 @@ public sealed class GameController : MonoBehaviour {
             }
             else if (gameState == GameState.Accusing)
             {
-                Debug.Log("Suspects beschuldigen");
                 //Tijdens het beschuldigen van de suspects
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
@@ -107,6 +109,10 @@ public sealed class GameController : MonoBehaviour {
                 }
             }
         }
+        if (isInterrogating && !activeCaseData.suspects[activeSuspect].nextMenu && Input.GetKeyDown(KeyCode.Space))
+        {
+            interrupt = true;
+        }
     }
 
     private IEnumerator Interrogate(int index)
@@ -117,10 +123,88 @@ public sealed class GameController : MonoBehaviour {
             gameState = GameState.Accusing;
         }
         canPlayerInput = false;
-        PlayAtSource(activeCaseData.suspects[index].explanation);
+        PlayAtSource(activeCaseData.suspects[index].speakToDetective);
         yield return new WaitUntil(() => !audioSource.isPlaying);
+        isInterrogating = true;
+        PlayAtSource(activeCaseData.suspects[index].explanation);
+        yield return new WaitUntil(() => !audioSource.isPlaying || interrupt);
+        if (interrupt)
+        {
+            StartCoroutine(Interrupt(index));
+            yield break;
+        }
+        isInterrogating = false;
         audioSource.Stop();
         canPlayerInput = true;
+    }
+
+    private IEnumerator Interrupt(int index)
+    {
+        if (activeCaseData.suspects[index].guilty)
+        {
+            //Kijk of interruption effective of ineffective is adhv sample point van audio source
+            if (audioSource.timeSamples >= activeCaseData.suspects[index].effectiveInterruption.x && audioSource.timeSamples <= activeCaseData.suspects[index].effectiveInterruption.y)
+            {
+                Debug.Log("Effective interruption!");
+                PlayAtSource(activeCaseData.interruptQuotes);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                PlayAtSource(activeCaseData.suspects[activeSuspect].interruptClipInitial);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                for (int i = 0; i < winSequence.Length; i++)
+                {
+                    PlayAtSource(winSequence[i]);
+                    yield return new WaitUntil(() => !audioSource.isPlaying);
+                }
+                //Hier stoppen we de app voor nu.
+                UnityEditor.EditorApplication.isPlaying = false;
+                Application.Quit();
+            }
+            else
+            {
+                Debug.Log("Stommerd.");
+                PlayAtSource(activeCaseData.interruptQuotes);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                if (!interrupted[activeSuspect])
+                {
+                    PlayAtSource(activeCaseData.suspects[activeSuspect].interruptClipInitial);
+                    interrupted[activeSuspect] = true;
+                }
+                else
+                {
+                    PlayAtSource(activeCaseData.suspects[activeSuspect].interruptClip);
+                }
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                PlayAtSource(activeCaseData.excuseQuotes);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                isInterrogating = false;
+                interrupt = false;
+                audioSource.Stop();
+                canPlayerInput = true;
+            }
+        }
+        else
+        {
+            //Ineffective sowieso
+            Debug.Log("Stommerd.");
+            PlayAtSource(activeCaseData.interruptQuotes);
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            if (!interrupted[activeSuspect])
+            {
+                PlayAtSource(activeCaseData.suspects[activeSuspect].interruptClipInitial);
+                interrupted[activeSuspect] = true;
+            }
+            else
+            {
+                PlayAtSource(activeCaseData.suspects[activeSuspect].interruptClip);
+            }
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            PlayAtSource(activeCaseData.excuseQuotes);
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            isInterrogating = false;
+            interrupt = false;
+            audioSource.Stop();
+            canPlayerInput = true;
+        }
     }
 
     private IEnumerator Accuse(int index)
@@ -132,15 +216,18 @@ public sealed class GameController : MonoBehaviour {
             gameState = GameState.Interrogating;
             canPlayerInput = true;
             activeSuspect = 0;
-            PlayAtSource(activeCaseData.suspects[0].speakTo);
+            PlayAtSource(activeCaseData.suspects[0].speakToMenu);
             yield break;
         }
         //Check of de accusation juist is
         if (activeCaseData.suspects[index].guilty)
         {
             //Juist
-            PlayAtSource(activeCaseData.accuseCorrect);
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            for (int i = 0; i < activeCaseData.accuseCorrect.Length; i++)
+            {
+                PlayAtSource(activeCaseData.accuseCorrect[i]);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+            }
             audioSource.Stop();
             canPlayerInput = true;
             //Hier stoppen we de app voor nu.
@@ -150,7 +237,11 @@ public sealed class GameController : MonoBehaviour {
         else
         {
             //Onjuist
-            PlayAtSource(activeCaseData.accuseWrong);
+            for (int i = 0; i < activeCaseData.accuseWrong.Length; i++)
+            {
+                PlayAtSource(activeCaseData.accuseWrong[i]);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+            }
             yield return new WaitUntil(() => !audioSource.isPlaying);
             audioSource.Stop();
             canPlayerInput = true;
@@ -164,148 +255,10 @@ public sealed class GameController : MonoBehaviour {
         audioSource.Play();
     }
 
-/*
-    public enum GameState { Intro, Questioning, Interrogate, Accusation }
-    public GameState gameState;
-    public CaseData caseData;   //Gebruikt manager om de suspects te processen.
-    public KeyCode accuseKey;
-
-    public bool waitForInput { get; set; }  //If true, wacht op player keyboard input om het proces te resumeren.
-    public bool canAccuse { get; set; }     //Kan de player al accusen of moet ie nog wachten tot de accuseClip afgelopen is?
-    public bool hasAccuseClipPlayed { get; set; }
-
-    private AudioSource m_AudioSource;
-
-    private IEnumerator Start()
+    private void PlayAtSource(AudioClip[] clips)
     {
-        gameState = GameState.Intro;
-        waitForInput = false;
-        m_AudioSource = GetComponent<AudioSource>();
-        //Speel Intro clips af
-        for (int i = 0; i < caseData.introClips.Length; i++)
-        {
-            m_AudioSource.clip = caseData.introClips[i];
-            m_AudioSource.Play();
-            yield return new WaitUntil(() => m_AudioSource.isPlaying == false);
-        }
-        StartCoroutine(MenuOptions());
+        audioSource.Stop();
+        audioSource.clip = clips[Random.Range(0, clips.Length)];
+        audioSource.Play();
     }
-
-    private void Update()
-    {
-        if (waitForInput)
-        {
-            if (gameState == GameState.Questioning)
-            {
-                //Doe input shit hier. We kunnen er van uit gaan dat Alpha1 altijd wordt gebruikt voor 'Speak to me again' en Spacebar voor menu options repeat
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    //Revert to intro hier
-                    StartCoroutine(Start());
-                }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    StartCoroutine(MenuOptions());
-                }
-                else if (Input.GetKeyDown(accuseKey))
-                {
-                    gameState = GameState.Accusation;
-                    return;
-                }
-                else
-                {
-                    for (int i = 0; i < caseData.suspects.Length; i++)
-                    {
-                        if (Input.GetKeyDown(caseData.suspects[i].hotkey))
-                        {
-                            //Ondervraag suspects hier.
-                            StartCoroutine(Interrogate(caseData.suspects[i]));
-                        }
-                    }
-                }
-            }
-            else if (gameState == GameState.Accusation)
-            {
-                if (canAccuse)
-                {
-                    //Hier gaan we uit van Alpha1 = terug naar Questioning en 'accuseKey' om de opties opnieuw te horen.
-                    if (Input.GetKeyDown(KeyCode.Alpha1))
-                    {
-                        gameState = GameState.Questioning;
-                        hasAccuseClipPlayed = false;
-                        canAccuse = false;
-                        return;
-                    }
-                    else if (Input.GetKeyDown(accuseKey))
-                    {
-                        PlayAccuseClip();
-                    }
-                    else
-                    {
-                        for (int i = 0; i < caseData.suspects.Length; i++)
-                        {
-                            if (Input.GetKeyDown(caseData.suspects[i].hotkey))
-                            {
-                                //Accuse suspect hier.
-                                if (caseData.suspects[i].guilty)
-                                {
-                                    m_AudioSource.clip = caseData.accuseCorrect;
-                                    m_AudioSource.Play();
-                                    Debug.Log("Goed gedaan zeg.");
-                                }
-                                else
-                                {
-                                    m_AudioSource.clip = caseData.accuseWrong;
-                                    m_AudioSource.Play();
-                                    Debug.Log("Probeer opnieuw.");
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (!hasAccuseClipPlayed)
-                    {
-                        PlayAccuseClip();
-                    }
-                }
-            }
-        }
-    }
-
-    private IEnumerator MenuOptions()
-    {
-        m_AudioSource.clip = caseData.menuClip;
-        m_AudioSource.Play();
-        waitForInput = true;
-        yield return new WaitUntil(() => m_AudioSource.isPlaying == false);
-        gameState = GameState.Questioning;
-    }
-
-    private IEnumerator Interrogate(CaseData.Suspect suspect)
-    {
-        waitForInput = false;
-        gameState = GameState.Interrogate;
-        m_AudioSource.clip = suspect.explanation;
-        m_AudioSource.Play();
-        yield return new WaitUntil(() => m_AudioSource.isPlaying == false);
-        gameState = GameState.Questioning;
-        waitForInput = true;
-    }
-
-    private void PlayAccuseClip()
-    {
-        hasAccuseClipPlayed = true;
-        m_AudioSource.clip = caseData.whoIsGuiltyClip;
-        m_AudioSource.Play();
-        waitForInput = true;
-        canAccuse = true;
-    }
-
-    [ForNextVersion]
-    private IEnumerator AccuseSuspect(CaseData.Suspect suspect)
-    {
-        yield break;
-    }*/
 }
