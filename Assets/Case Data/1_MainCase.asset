@@ -46,9 +46,9 @@ MonoBehaviour:
     accusation: {fileID: 8300000, guid: 538b6776cfc87824c82592516bced152, type: 3}
     guilty: 0
     nextMenu: 0
-    interruptClipInitial: {fileID: 8300000, guid: a4e41ae1f2257a642a9c57f7479da61a,
+    interruptClipInitial: {fileID: 8300000, guid: d2cbec2cb320d4743adf1b8895605a3c,
       type: 3}
-    interruptClip: {fileID: 8300000, guid: 2fcd4472bc6ef794d90d46f2a42fc724, type: 3}
+    interruptClip: {fileID: 8300000, guid: 3a3c70ef3ff4ad2439f39fe606b0ba2e, type: 3}
   - suspectName: Janitor
     speakToMenu: {fileID: 8300000, guid: 4a7803a019453054eb3dcc73e368e4c3, type: 3}
     speakToDetective: {fileID: 8300000, guid: a5f62079fa1e15c418bc47274f99601d, type: 3}
