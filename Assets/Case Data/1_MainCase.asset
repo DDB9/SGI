@@ -15,6 +15,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 80d5f99aa2007214d87ede743710afa2, type: 3}
   - {fileID: 8300000, guid: 1194894c3a6f21242977b692d970ae96, type: 3}
   - {fileID: 8300000, guid: 3cb64c9062f5e2a499c2d8535d68c21a, type: 3}
+  - {fileID: 8300000, guid: de90eb41ab8dd5443801ca80e2286dac, type: 3}
   suspects:
   - suspectName: Dean
     speakToMenu: {fileID: 8300000, guid: 73ef3fc2c35b12747abe9abec6438bb4, type: 3}

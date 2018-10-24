@@ -11,6 +11,8 @@ public sealed class GameController : MonoBehaviour {
     public string activeSuspectName;          //Debug. Alleen voor de inspector.
     public bool[] interrupted = new bool[4];  //Bool array, houdt bij of suspect al is geinterrupt.
     public AudioClip[] winSequence;           //De sequence van audioclips die speelt als je wint
+    public AudioClip interruptTutorial;       //Info clip
+    public bool interruptInfoGiven;           //Is er al gezegd of de speler met spatiebalk kan interrupten
 
     public bool canPlayerInput { get; set; }  //True als de speler keuzes kan maken (ondervragen en beschuldigen en zo)
     public bool isInterrogating { get; set; } //True als de interrogation functie aan het afspelen is
@@ -125,6 +127,12 @@ public sealed class GameController : MonoBehaviour {
         canPlayerInput = false;
         PlayAtSource(activeCaseData.suspects[index].speakToDetective);
         yield return new WaitUntil(() => !audioSource.isPlaying);
+        if (!interruptInfoGiven)
+        {
+            interruptInfoGiven = true;
+            PlayAtSource(interruptTutorial);
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+        }
         isInterrogating = true;
         PlayAtSource(activeCaseData.suspects[index].explanation);
         yield return new WaitUntil(() => !audioSource.isPlaying || interrupt);
@@ -156,7 +164,9 @@ public sealed class GameController : MonoBehaviour {
                     yield return new WaitUntil(() => !audioSource.isPlaying);
                 }
                 //Hier stoppen we de app voor nu.
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+#endif
                 Application.Quit();
             }
             else
@@ -231,7 +241,9 @@ public sealed class GameController : MonoBehaviour {
             audioSource.Stop();
             canPlayerInput = true;
             //Hier stoppen we de app voor nu.
+#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
+#endif
             Application.Quit();
         }
         else
