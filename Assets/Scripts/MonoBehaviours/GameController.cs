@@ -13,6 +13,9 @@ public sealed class GameController : MonoBehaviour {
     public AudioClip[] winSequence;           //De sequence van audioclips die speelt als je wint
     public AudioClip interruptTutorial;       //Info clip
     public bool interruptInfoGiven;           //Is er al gezegd of de speler met spatiebalk kan interrupten
+    public int strikes;                       //3 strikes en de speler is game-over.
+    public AudioClip gameOverClip;            //Boze Detective Mallone
+    public AudioSource bgSource;
 
     public bool canPlayerInput { get; set; }  //True als de speler keuzes kan maken (ondervragen en beschuldigen en zo)
     public bool isInterrogating { get; set; } //True als de interrogation functie aan het afspelen is
@@ -164,10 +167,7 @@ public sealed class GameController : MonoBehaviour {
                     yield return new WaitUntil(() => !audioSource.isPlaying);
                 }
                 //Hier stoppen we de app voor nu.
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                Application.Quit();
+                yield return StartCoroutine(Quit());
             }
             else
             {
@@ -186,6 +186,7 @@ public sealed class GameController : MonoBehaviour {
                 yield return new WaitUntil(() => !audioSource.isPlaying);
                 PlayAtSource(activeCaseData.excuseQuotes);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
+                yield return StartCoroutine(Strike());
                 isInterrogating = false;
                 interrupt = false;
                 audioSource.Stop();
@@ -210,6 +211,7 @@ public sealed class GameController : MonoBehaviour {
             yield return new WaitUntil(() => !audioSource.isPlaying);
             PlayAtSource(activeCaseData.excuseQuotes);
             yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return StartCoroutine(Strike());
             isInterrogating = false;
             interrupt = false;
             audioSource.Stop();
@@ -241,10 +243,7 @@ public sealed class GameController : MonoBehaviour {
             audioSource.Stop();
             canPlayerInput = true;
             //Hier stoppen we de app voor nu.
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
-            Application.Quit();
+            yield return StartCoroutine(Quit());
         }
         else
         {
@@ -254,7 +253,7 @@ public sealed class GameController : MonoBehaviour {
                 PlayAtSource(activeCaseData.accuseWrong[i]);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
             }
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return StartCoroutine(Strike());
             audioSource.Stop();
             canPlayerInput = true;
         }
@@ -272,5 +271,29 @@ public sealed class GameController : MonoBehaviour {
         audioSource.Stop();
         audioSource.clip = clips[Random.Range(0, clips.Length)];
         audioSource.Play();
+    }
+
+    private IEnumerator Strike()
+    {
+        strikes++;
+        if (strikes >= 3)
+        {
+            PlayAtSource(gameOverClip);
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return StartCoroutine(Quit());
+        }
+    }
+
+    private IEnumerator Quit()
+    {
+        while (Mathf.Approximately(bgSource.volume, 0))
+        {
+            bgSource.volume = Mathf.MoveTowards(bgSource.volume, 0, Time.deltaTime / 10);
+            yield return null;
+        }
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
     }
 }
